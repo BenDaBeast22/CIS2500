@@ -1,0 +1,22 @@
+Answer to Q2b:
+a1 is a pointer to a struct. Then a2 points to what a1 was pointing to which is the struct of a1 and a_shallow creates a new pointer that points to the struct of a1. Since a1, a2 and a_shallow are all pointer to the same struct they all access the same double array. So when any of a1, a2 or a_shallows array is accessed the change will be reflected in each of the arrays(a1, a2, a_shallow). So that is why when a1[0][1] is set to 100.0, a2[1][2] is set to 200.0 and a_shallow[2][3] is set to 300.0 all of the arrays at theses indices are affected and set to these values. On the other hand a_deep creates and is a pointer to a completely new struct and the values from a1's array are copied into it. So there is no link between a1 and a_deep and when the values of a_deeps array are accessed they will not have any affect on a1 or the other struct pointers(a2, a_shallow). This is why when a_deep[3][4] is set to 400.0 and only a_deep is affected by this change.
+
+Answer to Q2c:
+In this step a2's array is set to point to what b1's array is pointing to (pointers to doubles). Since a1, a2 and a_shallow all are pointing to the same struct they all have access to the same array so each are affected by any changes in b1's double array and are all pointing to b1's double pointers. This is why when the arrays of a1, a2, a_shallow and b1 are first printed the element of all the arrays are the random values that b1's array were randomly initilazed to. a_deep stays the same as in Qb since a_deep does not point to the same struct as a2 and is unnafected by setting a2's array to point to what b1's array is pointing to. Again this is why when the double arrays are printed again and a1[0][1] is set to 5000.0, a2[1][2] is set to 6000.0, a_shallow[2][3] is set to 700.0 and b1[4][5] is set to 9000.0 these changes affect the arrays of a1, a2, a_shallow and b1 since they all have access to the same double pointers(each of their arrays point to same double pointers). On the other hand a_deep is a pointer to a different structure containing a different array so when a_deep[3][4] = 8000.0 only its array is affected by this change.
+
+Answer to Q2d:
+First the double pointers from the struct that a1, a2 and a_shallow point to need to be freed. Then the pointer to the double pointers from the struct a1, a2 and a_shallow point to need to be freed. These pointers must be freed before a2 -> array = b1 -> array because when this operation happens the array that struct a1, a2 and a_shallow point to points to new double pointers pointing in turn to new doubles. They must be freed before this operation because then those pointers will be lost since the array of the struct pointed to by a1, a2 and a_shallow will point to a new double pointer so the originals won't be able to be accessed. Next array a1, a2 and a_shallow can all be freed by freeing one of them by freeing their double pointer, then their array(pointer to double pointer) and then the pointer to the struct which will in turn free everything a1, a2 and shallow_copy were pointing to. They must be freed in this order (and this goes for freeing pointers in general) since you must free the last pointer first and then free the one before next making your way up to the first pointer since when you free a pointer you lose what it was pointing to and are no longer able to free what the pointer is pointing to. Next the array of b1 will need to be freed(pointer to the double pointer) and then b1 the pointer to the struct can be freed. (Note: the double pointers would have already been freed by freeing a1 since a1's array(pointer to double pointer) points to the double pointer of b1. Finally deep_copy can be freed be freeing it's double pointer, pointer to double pointers of its array and then the pointer deep_copy can be freed. It does not matter the order deep_copy is freed since it points to a different struct then the rest of the struct pointers.
+
+Assumptions: Rows and Columns begin at row 0 and column 0
+
+Note: In a2_q1 the column numbers of the columns to be swapped are the same (I assumed this wass ok) since by chance the random function generates two zeros in a row
+
+Compilation:
+make all -> This makes both assignments
+make a2_q1 -> This makes only a2_q1
+make a2_q2 -> This makes only a2_q2
+make clean -> This removes all .o files and executables
+
+To run: 
+./a2_q1 for question 1 
+./a2_q2 for question 2
